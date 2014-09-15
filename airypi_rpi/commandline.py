@@ -17,9 +17,7 @@ def cmd_run():
 		if result == 0:
 			print 'Checked for upgrade, restarting...'
 			args = sys.argv
-			print args
 			args.insert(1, '-n')
-			print args
 			os.execv(args[0], args)
 		else:
 			print 'Unable to check for upgrade, continuing...'

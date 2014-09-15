@@ -24,7 +24,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     ],
-    install_requires = ['gevent', 'requests', 'RPi.GPIO', 'pyserial', 'backports.ssl_match_hostname'],
+    install_requires = ['gevent', 'requests', 'RPi.GPIO', 'pyserial', 'backports.ssl_match_hostname', 'six'],
     entry_points = {
         'console_scripts': ['airypi = airypi_rpi.commandline:cmd_run']
     }

@@ -75,13 +75,17 @@ class Authenticator:
                 while True:
                     email = require_input('Email: ')
 
-                    result = requests.post(server_url + '/register_check/email', data=json.dumps({'email': email})).json()
-                    if 'avaliable' not in result:
+                    result = requests.post(server_url + '/register_check/email', 
+                        headers = {'Content-type': 'application/json'},
+                        data=json.dumps({'email': email})).json()
+                    if 'avaliable' not in result['objects']:
                         print "Email has been taken"
                         continue
 
                     password = require_password('Password (input is hidden):')
-                    response = self.s.post(server_url + '/register', data=json.dumps({'email': email, 'password': password}))
+                    response = self.s.post(server_url + '/register', 
+                        headers = {'Content-type': 'application/json'},
+                        data=json.dumps({'email': email, 'password': password}))
                     auth_token = response.json()['objects']['auth_token']
                     print "A verification email has been sent. You do not need to confirm this email to connect to apps."
                     break

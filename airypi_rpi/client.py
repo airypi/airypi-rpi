@@ -40,10 +40,14 @@ def perform_action_queue(ws):
 
 class AppNamespace(BaseNamespace):
     def on_connect(self):
-        GPIO.cleanup()
         self.emit('run', {})
         self.server_namespace.emit('to_user', {'type': 'app_connect', 'data': {}})
     
+        if hasattr(self.login, 'app_name'):
+            print "Connected to: " + self.login.app_name
+        else:
+            print "Connected to: " + self.login.app_url
+
     def on_io(self, *args):
         try:
             func = args[0]
@@ -72,6 +76,9 @@ class AppNamespace(BaseNamespace):
                                    {'type': 'ui_load', 
                                     'data': args[0],
                                     'app_name': self.login.app_name})
+
+    def on_disconnect(self):
+        execute.cleanup()
 
     def emit(self, *args, **kwargs):
         if self._transport.connected:
@@ -122,7 +129,10 @@ def wait_forever_app(client):
             continue
         break
 
-def get_app_name(login, cmd_app_name = None):
+def get_app_name(login, cmd_app_name = None, url = None):
+    if url is not None:
+        return None
+
     if cmd_app_name is not None:
         app_info_response = login.s.get(auth.server_url + '/app/' + cmd_app_name).json()
         if 'app_name' in app_info_response['objects']:
@@ -147,7 +157,7 @@ def run(cmd_app_name = None, url = None):
         login = auth.Authenticator()
         login.login()
 
-        app_name = get_app_name(login, cmd_app_name = cmd_app_name)
+        app_name = get_app_name(login, cmd_app_name = cmd_app_name, url = url)
 
         while True:
             try:

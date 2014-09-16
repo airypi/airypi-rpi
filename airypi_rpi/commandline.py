@@ -4,6 +4,12 @@ from subprocess import call
 import os
 
 def cmd_run():
+	if os.getuid() != 0:
+		print "No superuser permissions"
+		print "I/O capabilities are disabled"
+		print "To run as superuser. Enter"
+		print "$ sudo airypi"
+
 	parser = argparse.ArgumentParser(prog='airypi')
 	parser.add_argument('-n', action='store_true', help='Disable auto-update')
 	parser.add_argument('-u', nargs=1, help='Connect to specified url')
@@ -25,7 +31,7 @@ def cmd_run():
 	if args.u is not None:
 		run(url = args.u)
 	elif args.s:
-		run(url = "http://localhost:8080/")
+		run(url = "http://localhost:8080")
 	elif args.l:
 		import logging
 		logging.basicConfig(level=logging.DEBUG)

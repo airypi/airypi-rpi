@@ -29,7 +29,7 @@ def cmd_run():
 			print 'Unable to check for upgrade, continuing...'
 
 	if args.u is not None:
-		run(url = args.u)
+		run(url = args.u[0])
 	elif args.s:
 		run(url = "http://localhost:8080")
 	elif args.l:

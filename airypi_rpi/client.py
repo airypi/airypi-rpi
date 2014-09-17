@@ -72,7 +72,7 @@ class AppNamespace(BaseNamespace):
         self.login.app_post(self.login.app_url + '/run/retval', data=json.dumps({'result': "None"}))
     
     def on_ui_load(self, *args): 
-        if hasattr(self.login, 'app_name')
+        if hasattr(self.login, 'app_name'):
             self.server_namespace.emit('to_user', 
                                        {'type': 'ui_load', 
                                         'data': args[0],
